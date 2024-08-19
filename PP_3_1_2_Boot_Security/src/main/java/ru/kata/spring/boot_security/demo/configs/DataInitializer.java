@@ -45,7 +45,7 @@ public class DataInitializer {
             admin.setAge((byte) 50);
             admin.setUsername("admin");
             admin.setEmail("admin@mail.ru");
-            admin.setPassword("123"); // 123
+            admin.setPassword("123"); //1234
             admin.setRoles(adminRoles);
             userService.add(admin);
         };
