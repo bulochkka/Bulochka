@@ -22,12 +22,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.successUserHandler = successUserHandler;
         this.userServicesImpl = userServicesImpl;
     }
-
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public static BCryptPasswordEncoder bcryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+   /* @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -47,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(bcryptPasswordEncoder());
         authenticationProvider.setUserDetailsService(userServicesImpl);
 
         return authenticationProvider;

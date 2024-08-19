@@ -19,13 +19,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServicesImpl implements UserServices {
+public class 	UserServicesImpl implements UserServices {
 	private  BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserRepository userRepository;
 	
 	
 	@Autowired
-	public UserServicesImpl(UserRepository userRepository) {
+	public UserServicesImpl(UserRepository userRepository,BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
 		this.userRepository = userRepository;
 	}
 	
@@ -61,8 +62,8 @@ public class UserServicesImpl implements UserServices {
 	public void add(User user) {
 		User existingUser = new User();
 		existingUser.setUsername(user.getUsername());
-		/*existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));*/
-		existingUser.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));
+		existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		/*existingUser.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));*/
 		existingUser.setEmail(user.getEmail());
 		existingUser.setAge(user.getAge());
 		existingUser.setRoles(user.getRoles());
@@ -78,7 +79,7 @@ public class UserServicesImpl implements UserServices {
 		User existingUser = userRepository.getById(id);
 		existingUser.setUsername(user.getUsername());
 		if (user.getPassword() != null) {
-			existingUser.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));
+			existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		}
 		
 		existingUser.setEmail(user.getEmail());
