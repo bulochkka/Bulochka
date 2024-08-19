@@ -25,17 +25,14 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	//Методы user
+
 	@GetMapping("/user")
 	public String userInfo(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		User user = userService.findByUsername(userDetails.getUsername());
 		model.addAttribute("user", user);
 		return "user";
 	}
-	//-----
-	
-	
-	//Методы admin
+
 	@GetMapping("/admin")
 	public String index(Model model) {
 		List<User> users = userService.findAll();

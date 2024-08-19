@@ -14,43 +14,43 @@ import ru.kata.spring.boot_security.demo.services.UserServicesImpl;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	private final SuccessUserHandler successUserHandler;
-	private final UserServicesImpl userServicesImpl;
-	
-	@Autowired
-	public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServicesImpl userServicesImpl) {
-		this.successUserHandler = successUserHandler;
-		this.userServicesImpl = userServicesImpl;
-	}
-	
-	@Bean
-	public static PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests()
-				.antMatchers("/", "/index").permitAll()
-				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-				.anyRequest().authenticated()
-				.and()
-				.formLogin().successHandler(successUserHandler)
-				.permitAll()
-				.and()
-				.logout()
-				.permitAll();
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider daoAuthenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setPasswordEncoder(passwordEncoder());
-		authenticationProvider.setUserDetailsService(userServicesImpl);
-		
-		return authenticationProvider;
-	}
+    private final SuccessUserHandler successUserHandler;
+    private final UserServicesImpl userServicesImpl;
+
+    @Autowired
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServicesImpl userServicesImpl) {
+        this.successUserHandler = successUserHandler;
+        this.userServicesImpl = userServicesImpl;
+    }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().successHandler(successUserHandler)
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setUserDetailsService(userServicesImpl);
+
+        return authenticationProvider;
+    }
 }
 	

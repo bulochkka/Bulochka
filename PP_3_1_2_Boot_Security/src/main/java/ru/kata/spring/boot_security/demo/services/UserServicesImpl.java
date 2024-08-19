@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 import ru.kata.spring.boot_security.demo.entities.Role;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServicesImpl implements UserServices {
+	private  BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserRepository userRepository;
 	
 	
@@ -59,6 +61,7 @@ public class UserServicesImpl implements UserServices {
 	public void add(User user) {
 		User existingUser = new User();
 		existingUser.setUsername(user.getUsername());
+		/*existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));*/
 		existingUser.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));
 		existingUser.setEmail(user.getEmail());
 		existingUser.setAge(user.getAge());

@@ -12,8 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface UserServices extends UserDetailsService {
-	
-	
+
 	Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles);
 	
 	User findUserByUsername(String username);
